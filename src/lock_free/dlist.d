@@ -712,15 +712,15 @@ void iterator(Position Where)()
     writefln("size %s", max_steps);
 }
 
-enum numThreads = 6;
-
 unittest
 {
+    import std.parallelism : totalCPUs;
+
     sList = new shared(TList)();
     size_t count;
     shared(TList.Node)* p;
 
-    foreach(i; 0 .. numThreads)
+    foreach(i; 0 .. totalCPUs)
     {
         if (i & 1)
         {
@@ -747,7 +747,7 @@ unittest
     writeln("queue empty? -> ", count);
     assert(count == 0, to!string(count));
 
-    foreach(i; 0 .. numThreads)
+    foreach(i; 0 .. totalCPUs)
     {
         if (i & 1)
         {
@@ -774,7 +774,7 @@ unittest
     writeln("list empty? -> ", count);
     assert(count == 0, to!string(count));
 
-    foreach(i; 0 .. numThreads)
+    foreach(i; 0 .. totalCPUs)
     {
         if (i & 1)
         {
