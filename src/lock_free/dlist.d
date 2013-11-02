@@ -598,11 +598,11 @@ struct Light
     size_t val;
 }
 
-alias Heavy TPayload;
+alias Light TPayload;
 alias shared AtomicDList!(TPayload) TList;
 //alias SyncedDList!(TPayload) TList;
 shared TList sList;
-enum amount = 1_000_000;
+enum amount = 10_000;
 enum Position { Front, Back, }
 
 void adder(Position Where)()
