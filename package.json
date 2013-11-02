@@ -1,0 +1,21 @@
+{
+	"name": "lock-free",
+	"description": "Lock-Free data structures",
+	"copyright": "Copyright © 2013-, Martin Nowak",
+	"license": "MIT",
+	"authors": ["Martin Nowak"],
+	"dependencies": {
+	},
+	"configurations": [
+	{
+		"name": "library",
+		"targetType": "library",
+	},
+	{
+		"name": "unittest",
+		"targetType": "executable",
+		"targetName": "unittest",
+		"dflags": ["-main"],
+	},
+	],
+}
