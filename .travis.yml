@@ -6,8 +6,8 @@ language: d
 install:
   # ldc2
   # dub
-  - LDC2_VERSION=0.12.0
-  - DUB_VERSION=0.9.19
+  - LDC2_VERSION=0.12.1
+  - DUB_VERSION=0.9.20
   - OS=linux
   - ARCH=x86_64
   - LDC2=ldc2-${LDC2_VERSION}-${OS}-${ARCH}
