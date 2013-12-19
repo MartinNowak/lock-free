@@ -1,4 +1,4 @@
-lock-free [![Build Status](https://travis-ci.org/dawgfoto/lock-free.png)](https://travis-ci.org/dawgfoto/lock-free)
+lock-free [![Build Status](https://travis-ci.org/MartinNowak/lock-free.png)](https://travis-ci.org/MartinNowak/lock-free)
 =========
 
 A library for lock-free data structures.
