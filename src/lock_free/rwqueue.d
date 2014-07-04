@@ -12,7 +12,7 @@ shared struct RWQueue(T, size_t capacity = roundPow2!(PAGE_SIZE / T.sizeof))
 
     @property size_t length() shared const
     {
-        return wpos - rpos;
+        return atomicLoad!(MemoryOrder.acq)(_wpos) - atomicLoad!(MemoryOrder.acq)(_rpos);
     }
 
     @property bool empty() shared const
@@ -29,16 +29,18 @@ shared struct RWQueue(T, size_t capacity = roundPow2!(PAGE_SIZE / T.sizeof))
     in { assert(!full); }
     body
     {
-        _data[wpos & mask] = t;
-        incw();
+        immutable pos = atomicLoad!(MemoryOrder.acq)(_wpos);
+        _data[pos & mask] = t;
+        atomicStore!(MemoryOrder.rel)(_wpos, pos + 1);
     }
 
     shared(T) pop()
     in { assert(!empty); }
     body
     {
-        auto res = _data[rpos & mask];
-        incr();
+        immutable pos = atomicLoad!(MemoryOrder.acq)(_rpos);
+        auto res = _data[pos & mask];
+        atomicStore!(MemoryOrder.rel)(_rpos, pos + 1);
         return res;
     }
 
@@ -46,26 +48,6 @@ private:
     //    import std.algorithm; // move
 
     enum mask = capacity - 1;
-
-    @property size_t wpos() shared const
-    {
-        return atomicLoad!(MemoryOrder.raw)(this._wpos);
-    }
-
-    @property size_t rpos() const
-    {
-        return atomicLoad!(MemoryOrder.raw)(this._rpos);
-    }
-
-    void incw()
-    {
-        atomicStore!(MemoryOrder.raw)(_wpos, wpos + 1);
-    }
-
-    void incr()
-    {
-        atomicStore!(MemoryOrder.raw)(_rpos, rpos + 1);
-    }
 
     size_t _wpos;
     size_t _rpos;
